@@ -5,6 +5,7 @@ import { css }from 'glamor'
 
 import MainPageLayout from '../layouts/MainPageLayout'
 import DatetimeInput from '../views/DatetimeInput'
+import withAlert from '../../hocs/with_alert'
 
 export default compose(
   withProps({
@@ -23,13 +24,19 @@ export default compose(
 })
 
 const CreateTimeCapsuleForm = compose(
+  withAlert('alert'),
   withState('openTime', 'setOpenTime', new Date()),
   withState('content', 'setContent', ''),
   withHandlers({
     onOpenTimeChange: ({setOpenTime}) => time => setOpenTime(time),
     onContentChange: ({setContent}) => e => setContent(e.target.value),
-    onSubmit: ({openTime, content}) => e => {
+    onSubmit: ({openTime, content, alert}) => e => {
       e.preventDefault()
+
+      if (typeof openTime === 'string') {
+        return alert.error('请输入正确的开启时间')
+      }
+
       console.log({openTime, content})
     },
   }),

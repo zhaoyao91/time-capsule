@@ -1,7 +1,9 @@
 import React from 'react'
 import { compose, withProps, withState, withHandlers, lifecycle } from 'recompose'
 import { withRouter } from 'react-router-dom'
+import { css }from 'glamor'
 
+import CenterLoading from '../views/CenterLoading'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withMeteor from '../../hocs/with_meteor'
 
@@ -51,7 +53,7 @@ export default compose(
     return <MainPageLayout>
       {do {
         if (state === 'error') <ErrorView/>
-        else if (state === 'loading') <LoadingView/>
+        else if (state === 'loading') <CenterLoading/>
         else if (state === 'notFound') <NotFoundView/>
         else if (state === 'notOpen') <NotOpenView timeCapsule={timeCapsule}/>
         else if (state === 'open') <OpenView timeCapsule={timeCapsule}/>
@@ -60,10 +62,6 @@ export default compose(
     </MainPageLayout>
   }
 )
-
-function LoadingView () {
-  return <div>loading</div>
-}
 
 function ErrorView () {
   return <div>error</div>

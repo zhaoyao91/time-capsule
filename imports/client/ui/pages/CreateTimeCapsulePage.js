@@ -3,6 +3,7 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { compose, withProps, withHandlers, withState } from 'recompose'
 import { css }from 'glamor'
 import { withRouter } from 'react-router-dom'
+import moment from 'moment'
 
 import MainPageLayout from '../layouts/MainPageLayout'
 import DatetimeInput from '../views/DatetimeInput'
@@ -52,7 +53,8 @@ const CreateTimeCapsuleForm = compose(
           alert.error('创建失败')
         }
         else {
-          history.push(`/time-capsules/${id}/created`)
+          const openTimeString = moment(openTime).format('YYYY-MM-DD HH:mm:ss')
+          history.push(`/time-capsules/${id}/created?openTimeString=${openTimeString}`)
         }
       })
     },

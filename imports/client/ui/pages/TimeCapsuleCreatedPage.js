@@ -18,12 +18,13 @@ export default compose(
   })),
   withProps({
     styles: {
-      jumbotronContainer: css({
-        'paddingTop': '1rem',
-        '& > .jumbotron > *:not(:last-child)': {
+      jumbotron: css({
+        'margin': 0,
+        'padding': '2rem 1rem',
+        '& > *:not(:last-child)': {
           'marginBottom': '1rem'
         },
-        '& > .jumbotron > *:last-child': {
+        '& > *:last-child': {
           'marginBottom': 0
         }
       })
@@ -31,18 +32,16 @@ export default compose(
   })
 )(function TimeCapsuleCreatedPage ({styles, timeCapsuleId, openTimeString}) {
   return <MainPageLayout>
-    <div {...styles.jumbotronContainer}>
-      <Jumbotron>
-        <h1>创建成功！</h1>
-        <p>
-          胶囊ID：
-          <strong>{timeCapsuleId}</strong>
-          （<ClickCopyText text={timeCapsuleId}>复制</ClickCopyText>）
-        </p>
-        <p>开启时间：{openTimeString}</p>
-        <p>请妥善保管好您的胶囊ID，并在开启时间之后使用它来开启胶囊。</p>
-      </Jumbotron>
-    </div>
+    <Jumbotron {...styles.jumbotron}>
+      <h1>创建成功！</h1>
+      <p>
+        胶囊ID：
+        <strong>{timeCapsuleId}</strong>
+        （<ClickCopyText text={timeCapsuleId}>复制</ClickCopyText>）
+      </p>
+      <p>开启时间：{openTimeString}</p>
+      <p>请妥善保管好您的胶囊ID，并在开启时间之后使用它来开启胶囊。</p>
+    </Jumbotron>
   </MainPageLayout>
 })
 

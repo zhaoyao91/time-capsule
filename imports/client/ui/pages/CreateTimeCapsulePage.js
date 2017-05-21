@@ -1,7 +1,6 @@
 import React from 'react'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
-import { compose, withProps, withHandlers, withState } from 'recompose'
-import { css }from 'glamor'
+import { compose, withHandlers, withState } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import { trim } from 'lodash/fp'
@@ -11,21 +10,11 @@ import DatetimeInput from '../views/DatetimeInput'
 import withAlert from '../../hocs/with_alert'
 import withMeteor from '../../hocs/with_meteor'
 
-export default compose(
-  withProps({
-    styles: {
-      formLayout: css({
-        'paddingTop': '1rem'
-      })
-    }
-  })
-)(function CreateTimeCapsulePage ({styles}) {
+export default function CreateTimeCapsulePage () {
   return <MainPageLayout>
-    <div {...styles.formLayout}>
-      <CreateTimeCapsuleForm/>
-    </div>
+    <CreateTimeCapsuleForm/>
   </MainPageLayout>
-})
+}
 
 const CreateTimeCapsuleForm = compose(
   withAlert('alert'),

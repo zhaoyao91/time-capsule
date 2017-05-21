@@ -1,28 +1,17 @@
 import React from 'react'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
-import { compose, withProps, withState, withHandlers } from 'recompose'
-import { css }from 'glamor'
+import { compose, withState, withHandlers } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { trim }from 'lodash/fp'
 
 import MainPageLayout from '../layouts/MainPageLayout'
 import withAlert from '../../hocs/with_alert'
 
-export default compose(
-  withProps({
-    styles: {
-      formLayout: css({
-        'paddingTop': '1rem'
-      })
-    }
-  })
-)(function OpenTimeCapsulePage ({styles}) {
+export default function OpenTimeCapsulePage () {
   return <MainPageLayout>
-    <div {...styles.formLayout}>
-      <OpenTimeCapsuleForm/>
-    </div>
+    <OpenTimeCapsuleForm/>
   </MainPageLayout>
-})
+}
 
 const OpenTimeCapsuleForm = compose(
   withRouter,

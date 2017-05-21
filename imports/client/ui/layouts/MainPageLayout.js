@@ -22,7 +22,9 @@ export default compose(
         'overflowY': 'auto',
       }),
       mainContainer: css({
-        'minHeight': '100%'
+        'minHeight': '100%',
+        'paddingTop': '1rem',
+        'paddingBottom': '1rem',
       })
     }
   })

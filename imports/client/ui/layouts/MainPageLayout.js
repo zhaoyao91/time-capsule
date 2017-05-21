@@ -20,6 +20,9 @@ export default compose(
       main: css({
         'height': '100%',
         'overflowY': 'auto',
+      }),
+      mainContainer: css({
+        'minHeight': '100%'
       })
     }
   })
@@ -29,7 +32,7 @@ export default compose(
       <MainNavbar/>
     </div>
     <div {...styles.main}>
-      <Container>
+      <Container {...styles.mainContainer}>
         {children}
       </Container>
     </div>

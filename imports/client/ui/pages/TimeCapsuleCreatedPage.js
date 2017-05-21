@@ -1,14 +1,11 @@
 import React from 'react'
-import { Popover, PopoverContent, Form, FormGroup, Label, Input, Jumbotron } from 'reactstrap'
+import { Popover, PopoverContent, Jumbotron } from 'reactstrap'
 import { compose, withProps, withHandlers, withState } from 'recompose'
 import { css }from 'glamor'
 import { withRouter } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
 import MainPageLayout from '../layouts/MainPageLayout'
-import DatetimeInput from '../views/DatetimeInput'
-import withAlert from '../../hocs/with_alert'
-import withMeteor from '../../hocs/with_meteor'
 import withParsedQueryObject from '../../hocs/with_parsed_query_object'
 import withId from '../../hocs/with_id'
 

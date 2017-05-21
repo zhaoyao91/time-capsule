@@ -10,6 +10,7 @@ import HomePage from './pages/HomePage'
 import CreateTimeCapsulePage from './pages/CreateTimeCapsulePage'
 import TimeCapsuleCreatedPage from './pages/TimeCapsuleCreatedPage'
 import OpenTimeCapsulePage from './pages/OpenTimeCapsulePage'
+import TimeCapsulePage from './pages/TimeCapsulePage'
 
 export default function Routes () {
   return <BrowserRouter>
@@ -18,6 +19,7 @@ export default function Routes () {
       <Route exact path="/time-capsule/create" component={CreateTimeCapsulePage}/>
       <Route exact path="/time-capsule/open" component={OpenTimeCapsulePage}/>
       <Route exact path="/time-capsules/:timeCapsuleId/created" component={TimeCapsuleCreatedPage}/>
+      <Route exact path="/time-capsules/:timeCapsuleId" component={TimeCapsulePage}/>
       <Route component={NotFoundPage}/>
     </Switch>
   </BrowserRouter>

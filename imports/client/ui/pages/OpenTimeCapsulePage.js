@@ -3,8 +3,10 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { compose, withProps, withState, withHandlers } from 'recompose'
 import { css }from 'glamor'
 import { withRouter } from 'react-router-dom'
+import { trim }from 'lodash/fp'
 
 import MainPageLayout from '../layouts/MainPageLayout'
+import withAlert from '../../hocs/with_alert'
 
 export default compose(
   withProps({
@@ -24,11 +26,18 @@ export default compose(
 
 const OpenTimeCapsuleForm = compose(
   withRouter,
+  withAlert('alert'),
   withState('timeCapsuleId', 'setTimeCapsuleId', ''),
   withHandlers({
     onTimeCapsuleIdChange: ({setTimeCapsuleId}) => e => setTimeCapsuleId(e.target.value),
-    onSubmit: ({timeCapsuleId, history}) => e => {
+    onSubmit: ({timeCapsuleId, history, alert}) => e => {
       e.preventDefault()
+
+      timeCapsuleId = trim(timeCapsuleId)
+      if (!timeCapsuleId) {
+        return alert.error('请输入胶囊ID')
+      }
+
       history.push(`/time-capsules/${timeCapsuleId}`)
     }
   })

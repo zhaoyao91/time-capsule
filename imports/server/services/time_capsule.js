@@ -22,6 +22,25 @@ const TimeCapsuleService = {
     }
 
     return TimeCapsules.insert(newTimeCapsule)
+  },
+
+  /**
+   * find a time capsule by id
+   * @param id
+   * @return timeCapsule | null
+   */
+  findOneById(id) {
+    return TimeCapsules.findOne(id)
+  },
+
+  /**
+   * check if a time capsule is open
+   * @param timeCapsule
+   * @param currentTime
+   * @return {boolean}
+   */
+  isOpen(timeCapsule, currentTime) {
+    return timeCapsule.openTime <= currentTime
   }
 }
 

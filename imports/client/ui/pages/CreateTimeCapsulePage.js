@@ -6,6 +6,7 @@ import { css }from 'glamor'
 import MainPageLayout from '../layouts/MainPageLayout'
 import DatetimeInput from '../views/DatetimeInput'
 import withAlert from '../../hocs/with_alert'
+import withMeteor from '../../hocs/with_meteor'
 
 export default compose(
   withProps({
@@ -25,19 +26,33 @@ export default compose(
 
 const CreateTimeCapsuleForm = compose(
   withAlert('alert'),
+  withMeteor('meteor'),
   withState('openTime', 'setOpenTime', new Date()),
   withState('content', 'setContent', ''),
   withHandlers({
     onOpenTimeChange: ({setOpenTime}) => time => setOpenTime(time),
     onContentChange: ({setContent}) => e => setContent(e.target.value),
-    onSubmit: ({openTime, content, alert}) => e => {
+    onSubmit: ({openTime, content, alert, meteor}) => e => {
       e.preventDefault()
 
       if (typeof openTime === 'string') {
         return alert.error('请输入正确的开启时间')
       }
 
-      console.log({openTime, content})
+      const newTimeCapsule = {
+        openTime: openTime,
+        content: content,
+      }
+
+      meteor.call('TimeCapsule.create', newTimeCapsule, (err, id) => {
+        if (err) {
+          console.error(err)
+          alert.error('创建失败')
+        }
+        else {
+          alert.success('创建成功')
+        }
+      })
     },
   }),
 )(function CreateTimeCapsuleForm ({onSubmit, openTime, onOpenTimeChange, content, onContentChange}) {

@@ -12,7 +12,7 @@ const TimeCapsuleService = {
   create(timeCapsule) {
     check(timeCapsule, {
       content: String,
-      openTime: String
+      openTime: Date
     })
 
     const newTimeCapsule = {

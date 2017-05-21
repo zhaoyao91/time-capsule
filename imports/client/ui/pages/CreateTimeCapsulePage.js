@@ -4,6 +4,7 @@ import { compose, withProps, withHandlers, withState } from 'recompose'
 import { css }from 'glamor'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
+import { trim } from 'lodash/fp'
 
 import MainPageLayout from '../layouts/MainPageLayout'
 import DatetimeInput from '../views/DatetimeInput'
@@ -40,6 +41,9 @@ const CreateTimeCapsuleForm = compose(
 
       if (typeof openTime === 'string') {
         return alert.error('请输入正确的开启时间')
+      }
+      if (!trim(content)) {
+        return alert.error('内容不能为空')
       }
 
       const newTimeCapsule = {

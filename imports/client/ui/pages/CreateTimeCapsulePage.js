@@ -2,6 +2,7 @@ import React from 'react'
 import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { compose, withProps, withHandlers, withState } from 'recompose'
 import { css }from 'glamor'
+import { withRouter } from 'react-router-dom'
 
 import MainPageLayout from '../layouts/MainPageLayout'
 import DatetimeInput from '../views/DatetimeInput'
@@ -27,12 +28,13 @@ export default compose(
 const CreateTimeCapsuleForm = compose(
   withAlert('alert'),
   withMeteor('meteor'),
-  withState('openTime', 'setOpenTime', new Date()),
+  withRouter,
+  withState('openTime', 'setOpenTime', () => new Date()),
   withState('content', 'setContent', ''),
   withHandlers({
     onOpenTimeChange: ({setOpenTime}) => time => setOpenTime(time),
     onContentChange: ({setContent}) => e => setContent(e.target.value),
-    onSubmit: ({openTime, content, alert, meteor}) => e => {
+    onSubmit: ({openTime, content, alert, meteor, history}) => e => {
       e.preventDefault()
 
       if (typeof openTime === 'string') {
@@ -50,7 +52,7 @@ const CreateTimeCapsuleForm = compose(
           alert.error('创建失败')
         }
         else {
-          alert.success('创建成功')
+          history.push(`/time-capsules/${id}/created`)
         }
       })
     },

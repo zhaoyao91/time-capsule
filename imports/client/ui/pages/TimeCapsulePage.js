@@ -2,10 +2,13 @@ import React from 'react'
 import { compose, withProps, withState, withHandlers, lifecycle } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { css }from 'glamor'
+import { Button } from 'reactstrap'
 
+import LinkText from '../views/LinkText'
 import CenterLoading from '../views/CenterLoading'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withMeteor from '../../hocs/with_meteor'
+import withAlert from '../../hocs/with_alert'
 
 export default compose(
   withRouter,
@@ -25,8 +28,9 @@ export default compose(
     }
   })),
   withMeteor('meteor'),
+  withAlert('alert'),
   withHandlers({
-    reload: ({meteor, setError, setLoading, setTimeCapsule, timeCapsuleId}) => () => {
+    reload: ({meteor, alert, setError, setLoading, setTimeCapsule, timeCapsuleId}) => () => {
       setError(false)
       setLoading(true)
       setTimeCapsule(null)
@@ -35,6 +39,7 @@ export default compose(
         setLoading(false)
         if (err) {
           console.error(err)
+          alert.error('打开失败')
           setError(true)
         }
         else {
@@ -49,13 +54,13 @@ export default compose(
       reload()
     }
   })
-)(function TimeCapsulePage ({state, timeCapsule}) {
+)(function TimeCapsulePage ({state, timeCapsule, reload}) {
     return <MainPageLayout>
       {do {
-        if (state === 'error') <ErrorView/>
-        else if (state === 'loading') <CenterLoading/>
+        if (state === 'error') <ErrorView reload={reload}/>
+        else if (state === 'loading') <LoadingView/>
         else if (state === 'notFound') <NotFoundView/>
-        else if (state === 'notOpen') <NotOpenView timeCapsule={timeCapsule}/>
+        else if (state === 'notOpen') <NotOpenView reload={reload} timeCapsule={timeCapsule}/>
         else if (state === 'open') <OpenView timeCapsule={timeCapsule}/>
         else <WrontStateView/>
       }}
@@ -63,8 +68,16 @@ export default compose(
   }
 )
 
-function ErrorView () {
-  return <div>error</div>
+function LoadingView () {
+  return <CenterLoading/>
+}
+
+function ErrorView ({reload}) {
+  return <p>
+    <span>打开失败，请</span>
+    <LinkText onClick={reload}>重新尝试</LinkText>
+    <span>。</span>
+  </p>
 }
 
 function NotFoundView () {

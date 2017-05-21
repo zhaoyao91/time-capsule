@@ -5,6 +5,7 @@ import { css }from 'glamor'
 import { withRouter } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
+import LinkText from '../views/LinkText'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withParsedQueryObject from '../../hocs/with_parsed_query_object'
 import withId from '../../hocs/with_id'
@@ -51,18 +52,10 @@ const ClickCopyText = compose(
   withHandlers({
     toggleOpen: ({setOpen, isOpen}) => () => setOpen(!isOpen)
   }),
-  withProps({
-    styles: {
-      text: css({
-        'color': '#0275d8',
-        'cursor': 'pointer',
-      })
-    }
-  })
-)(function ClickCopyText ({id, text, children, styles, isOpen, toggleOpen}) {
+)(function ClickCopyText ({id, text, children, isOpen, toggleOpen}) {
   return <span>
     <CopyToClipboard text={text}>
-      <span id={id} onClick={toggleOpen} {...styles.text}>{children}</span>
+      <LinkText id={id} onClick={toggleOpen}>{children}</LinkText>
     </CopyToClipboard>
     <Popover placement="top" isOpen={isOpen} target={id} toggle={toggleOpen}>
       <PopoverContent>复制成功</PopoverContent>

@@ -31,7 +31,7 @@ const CreateTimeCapsuleForm = compose(
   withAlert('alert'),
   withMeteor('meteor'),
   withRouter,
-  withState('openTime', 'setOpenTime', () => new Date()),
+  withState('openTime', 'setOpenTime', moment),
   withState('content', 'setContent', ''),
   withHandlers({
     onOpenTimeChange: ({setOpenTime}) => time => setOpenTime(time),
@@ -47,7 +47,7 @@ const CreateTimeCapsuleForm = compose(
       }
 
       const newTimeCapsule = {
-        openTime: openTime,
+        openTime: openTime.toDate(),
         content: content,
       }
 
@@ -57,7 +57,7 @@ const CreateTimeCapsuleForm = compose(
           alert.error('创建失败')
         }
         else {
-          const openTimeString = moment(openTime).format('YYYY-MM-DD HH:mm:ss')
+          const openTimeString = openTime.format('YYYY-MM-DD HH:mm:ss')
           history.push(`/time-capsules/${id}/created?openTimeString=${openTimeString}`)
         }
       })

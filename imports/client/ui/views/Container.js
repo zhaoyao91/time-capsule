@@ -11,6 +11,9 @@ export default compose(
       container: css({
         [`@media (max-width: ${BreakPoints.sm - 1}px)`]: {
           'width': '100%'
+        },
+        [`@media (min-width: ${BreakPoints.md}px)`]: {
+          'width': 720
         }
       })
     }

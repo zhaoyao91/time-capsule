@@ -8,7 +8,7 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 import LinkText from '../views/LinkText'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withParsedQueryObject from '../../hocs/with_parsed_query_object'
-import withId from '../../hocs/with_id'
+import withViewId from '../../hocs/with_view_id'
 
 export default compose(
   withRouter,
@@ -47,7 +47,7 @@ export default compose(
 })
 
 const ClickCopyText = compose(
-  withId('id'),
+  withViewId('id'),
   withState('isOpen', 'setOpen', false),
   withHandlers({
     toggleOpen: ({setOpen, isOpen}) => () => setOpen(!isOpen)

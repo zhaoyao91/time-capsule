@@ -5,18 +5,18 @@ const TimeCapsuleService = {
   /**
    * create a time capsule
    * @param timeCapsule
-   * @param timeCapsule.content
+   * @param timeCapsule.rawContent
    * @param timeCapsule.openTime
    * @return id
    */
   create(timeCapsule) {
     check(timeCapsule, {
-      content: String,
+      rawContent: Object,
       openTime: Date
     })
 
     const newTimeCapsule = {
-      content: timeCapsule.content,
+      rawContent: timeCapsule.rawContent,
       openTime: timeCapsule.openTime,
       createdAt: new Date()
     }

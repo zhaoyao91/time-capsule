@@ -8,14 +8,14 @@ Meteor.methods({
   /**
    * create time capsule
    * @param timeCapsule
-   * @param timeCapsule.content
+   * @param timeCapsule.rawContent
    * @param timeCapsule.openTime
    * @return id
    */
   'TimeCapsule.create'(timeCapsule) {
     check(timeCapsule, {
       openTime: Date,
-      content: String
+      rawContent: Object
     })
 
     return TimeCapsuleService.create(timeCapsule)

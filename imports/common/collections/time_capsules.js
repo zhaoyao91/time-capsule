@@ -3,8 +3,9 @@ import SimpleSchema from 'simpl-schema'
 
 const TimeCapsules = new Mongo.Collection('time_capsules')
 TimeCapsules.attachSchema(new SimpleSchema({
-  content: {
-    type: String
+  rawContent: {
+    type: Object,
+    blackbox: true
   },
 
   openTime: {

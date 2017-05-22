@@ -3,12 +3,13 @@ import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
 import { compose, withHandlers, withState } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
-import { trim } from 'lodash/fp'
 
+import { createEmptyEditorState, convertEditorStateToRaw } from '../../utils/draftjs'
 import MainPageLayout from '../layouts/MainPageLayout'
 import DatetimeInput from '../views/DatetimeInput'
 import withAlert from '../../hocs/with_alert'
 import withMeteor from '../../hocs/with_meteor'
+import TimeCapsuleContentEditor from '../views/TimeCapsuleContentEditor'
 
 export default function CreateTimeCapsulePage () {
   return <MainPageLayout>
@@ -21,23 +22,22 @@ const CreateTimeCapsuleForm = compose(
   withMeteor('meteor'),
   withRouter,
   withState('openTime', 'setOpenTime', moment),
-  withState('content', 'setContent', ''),
+  withState('contentEditorState', 'setContentEditorState', createEmptyEditorState),
   withHandlers({
     onOpenTimeChange: ({setOpenTime}) => time => setOpenTime(time),
-    onContentChange: ({setContent}) => e => setContent(e.target.value),
-    onSubmit: ({openTime, content, alert, meteor, history}) => e => {
+    onContentEditorStateChange: ({setContentEditorState}) => state => setContentEditorState(state),
+    onSubmit: ({openTime, alert, meteor, history, contentEditorState}) => e => {
       e.preventDefault()
 
       if (typeof openTime === 'string') {
         return alert.error('请输入正确的开启时间')
       }
-      if (!trim(content)) {
-        return alert.error('内容不能为空')
-      }
+
+      const rawContent = convertEditorStateToRaw(contentEditorState)
 
       const newTimeCapsule = {
         openTime: openTime.toDate(),
-        content: content,
+        rawContent: rawContent,
       }
 
       meteor.call('TimeCapsule.create', newTimeCapsule, (err, id) => {
@@ -51,8 +51,8 @@ const CreateTimeCapsuleForm = compose(
         }
       })
     },
-  }),
-)(function CreateTimeCapsuleForm ({onSubmit, openTime, onOpenTimeChange, content, onContentChange}) {
+  })
+)(function CreateTimeCapsuleForm ({onSubmit, openTime, onOpenTimeChange, contentEditorState, onContentEditorStateChange}) {
   return <Form onSubmit={onSubmit}>
     <FormGroup>
       <Label>开启时间</Label>
@@ -60,7 +60,7 @@ const CreateTimeCapsuleForm = compose(
     </FormGroup>
     <FormGroup>
       <Label>内容</Label>
-      <Input type="textarea" value={content} onChange={onContentChange}/>
+      <TimeCapsuleContentEditor editorState={contentEditorState} onEditorStateChange={onContentEditorStateChange}/>
     </FormGroup>
     <Button color="primary">创建</Button>
   </Form>

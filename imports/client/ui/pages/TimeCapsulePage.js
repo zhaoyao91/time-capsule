@@ -5,7 +5,7 @@ import { css }from 'glamor'
 import { Alert, Card, CardBlock, CardText } from 'reactstrap'
 import moment from 'moment'
 
-import LinkText from '../views/LinkText'
+import TimeCapsuleContentView from '../views/TimeCapsuleContentView'
 import CenterLoading from '../views/CenterLoading'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withMeteor from '../../hocs/with_meteor'
@@ -84,13 +84,13 @@ function NotFoundView () {
 function NotOpenView ({reload, timeCapsule}) {
   return <div>
     <Alert color="warning">尚未到达开启时间，无法查看胶囊内容。</Alert>
-    <TimeCapsuleCard timeCapsule={timeCapsule}/>
+    <TimeCapsuleView timeCapsule={timeCapsule}/>
   </div>
 }
 
 function OpenView ({timeCapsule}) {
   return <div>
-    <TimeCapsuleCard timeCapsule={timeCapsule}/>
+    <TimeCapsuleView timeCapsule={timeCapsule}/>
   </div>
 }
 
@@ -98,26 +98,19 @@ function WrongStateView () {
   return <Alert color="danger">状态错误。</Alert>
 }
 
-const TimeCapsuleCard = compose(
+const TimeCapsuleView = compose(
   withProps({
-    styles: {
-      content: css({
-        'margin': 0,
-        'whiteSpace': 'pre-wrap'
-      })
-    }
+    styles: {}
   })
 )(function TimeCapsuleCard ({timeCapsule, styles}) {
-  return <Card>
-    <CardBlock>
-      <CardText>胶囊ID：{timeCapsule._id}</CardText>
-      <CardText>开启时间：{moment(timeCapsule.openTime).format('YYYY-MM-DD HH:mm:ss')}</CardText>
-      {
-        timeCapsule.content && <div>
-          <hr/>
-          <p {...styles.content}>{timeCapsule.content}</p>
-        </div>
-      }
-    </CardBlock>
-  </Card>
+  return <div>
+    <p>胶囊ID：{timeCapsule._id}</p>
+    <p>开启时间：{moment(timeCapsule.openTime).format('YYYY-MM-DD HH:mm:ss')}</p>
+    {
+      timeCapsule.rawContent && <div>
+        <p>内容：</p>
+        <TimeCapsuleContentView rawContent={timeCapsule.rawContent}/>
+      </div>
+    }
+  </div>
 })

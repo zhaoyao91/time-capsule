@@ -5,6 +5,14 @@ import { css }from 'glamor'
 
 export default compose(
   withProps({
+    toolbar: {
+      options: ['blockType', 'fontSize', 'fontFamily', 'inline', 'list', 'colorPicker', 'link', 'embedded', 'image'],
+      inline: {
+        options: ['bold', 'italic', 'underline', 'strikethrough'],
+      },
+    }
+  }),
+  withProps({
     styles: {
       editor: css({
         'border': '1px solid #F1F1F1',
@@ -13,6 +21,6 @@ export default compose(
       })
     }
   })
-)(function TimeCapsuleContentEditor ({styles, ...otherProps}) {
-  return <Editor editorClassName={`${styles.editor}`} {...otherProps}/>
+)(function TimeCapsuleContentEditor ({styles, toolbar, ...otherProps}) {
+  return <Editor editorClassName={`${styles.editor}`} toolbar={toolbar} {...otherProps}/>
 })

@@ -21,9 +21,13 @@ export default compose(
   withProps({
     styles: {
       wrapper: css({
-        boxSizing: 'content-box'
+        'boxSizing': 'content-box'
+      }),
+      toolbar: css({
+        'width': 'auto'
       }),
       editor: css({
+        'width': 'auto',
         'border': '1px solid #F1F1F1',
         'padding': 5,
         'borderRadius': 2,
@@ -31,5 +35,7 @@ export default compose(
     }
   })
 )(function TimeCapsuleContentEditor ({styles, toolbar, localization, ...otherProps}) {
-  return <Editor wrapperClassName={`${styles.wrapper}`} editorClassName={`${styles.editor}`} toolbar={toolbar} localization={localization} {...otherProps}/>
+  return <Editor wrapperClassName={`${styles.wrapper}`} toolbarClassName={`${styles.toolbar}`}
+                 editorClassName={`${styles.editor}`} toolbar={toolbar}
+                 localization={localization} {...otherProps}/>
 })

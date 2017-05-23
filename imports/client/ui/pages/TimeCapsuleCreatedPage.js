@@ -9,12 +9,14 @@ import LinkText from '../views/LinkText'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withParsedQueryObject from '../../hocs/with_parsed_query_object'
 import withViewId from '../../hocs/with_view_id'
+import withMatchedRouteParams from '../../hocs/with_matched_route_params'
 
 export default compose(
   withRouter,
   withParsedQueryObject('query'),
-  withProps(({match, query}) => ({
-    timeCapsuleId: match.params.timeCapsuleId,
+  withMatchedRouteParams('params'),
+  withProps(({params, query}) => ({
+    timeCapsuleId: params.timeCapsuleId,
     openTimeString: query.openTimeString
   })),
   withProps({
@@ -37,7 +39,7 @@ export default compose(
       <h1>创建成功！</h1>
       <p>
         胶囊ID：
-        <strong>{timeCapsuleId}</strong>
+        <span>{timeCapsuleId}</span>
         （<ClickCopyText text={timeCapsuleId}>复制</ClickCopyText>）
       </p>
       <p>开启时间：{openTimeString}</p>

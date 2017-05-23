@@ -14,6 +14,9 @@ export default compose(
   }),
   withProps({
     styles: {
+      wrapper: css({
+        boxSizing: 'content-box'
+      }),
       editor: css({
         'border': '1px solid #F1F1F1',
         'padding': 5,
@@ -22,5 +25,5 @@ export default compose(
     }
   })
 )(function TimeCapsuleContentEditor ({styles, toolbar, ...otherProps}) {
-  return <Editor editorClassName={`${styles.editor}`} toolbar={toolbar} {...otherProps}/>
+  return <Editor wrapperClassName={`${styles.wrapper}`} editorClassName={`${styles.editor}`} toolbar={toolbar} {...otherProps}/>
 })

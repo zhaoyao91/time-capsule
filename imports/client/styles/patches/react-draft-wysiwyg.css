@@ -1,0 +1,19 @@
+.rdw-editor-wrapper {
+  -moz-box-sizing: content-box;
+  box-sizing: content-box;
+}
+
+.rdw-editor-toolbar {
+  width: auto;
+}
+
+.rdw-editor-main {
+  width: auto;
+  border: 1px solid #F1F1F1;
+  padding: 5px;
+  border-radius: 2px;
+}
+
+.public-DraftStyleDefault-block {
+  margin: 0.5em 0;
+}

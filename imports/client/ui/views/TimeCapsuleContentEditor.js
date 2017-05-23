@@ -1,7 +1,6 @@
 import React from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import { compose, withProps } from 'recompose'
-import { css }from 'glamor'
 
 export default compose(
   withProps({
@@ -18,24 +17,6 @@ export default compose(
       locale: 'zh'
     }
   }),
-  withProps({
-    styles: {
-      wrapper: css({
-        'boxSizing': 'content-box'
-      }),
-      toolbar: css({
-        'width': 'auto'
-      }),
-      editor: css({
-        'width': 'auto',
-        'border': '1px solid #F1F1F1',
-        'padding': 5,
-        'borderRadius': 2,
-      })
-    }
-  })
 )(function TimeCapsuleContentEditor ({styles, toolbar, localization, ...otherProps}) {
-  return <Editor wrapperClassName={`${styles.wrapper}`} toolbarClassName={`${styles.toolbar}`}
-                 editorClassName={`${styles.editor}`} toolbar={toolbar}
-                 localization={localization} {...otherProps}/>
+  return <Editor toolbar={toolbar} localization={localization} {...otherProps}/>
 })

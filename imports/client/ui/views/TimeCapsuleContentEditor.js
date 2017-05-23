@@ -6,9 +6,12 @@ import { css }from 'glamor'
 export default compose(
   withProps({
     toolbar: {
-      options: ['blockType', 'fontSize', 'fontFamily', 'inline', 'list', 'colorPicker', 'link', 'embedded', 'image'],
+      options: ['blockType', 'inline', 'list', 'colorPicker', 'link', 'embedded', 'image'],
       inline: {
         options: ['bold', 'italic', 'underline', 'strikethrough'],
+      },
+      blockType: {
+        options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
       },
     }
   }),

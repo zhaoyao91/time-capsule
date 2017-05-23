@@ -13,6 +13,9 @@ export default compose(
       blockType: {
         options: ['Normal', 'H1', 'H2', 'H3', 'H4', 'H5', 'H6'],
       },
+    },
+    localization: {
+      locale: 'zh'
     }
   }),
   withProps({
@@ -27,6 +30,6 @@ export default compose(
       })
     }
   })
-)(function TimeCapsuleContentEditor ({styles, toolbar, ...otherProps}) {
-  return <Editor wrapperClassName={`${styles.wrapper}`} editorClassName={`${styles.editor}`} toolbar={toolbar} {...otherProps}/>
+)(function TimeCapsuleContentEditor ({styles, toolbar, localization, ...otherProps}) {
+  return <Editor wrapperClassName={`${styles.wrapper}`} editorClassName={`${styles.editor}`} toolbar={toolbar} localization={localization} {...otherProps}/>
 })

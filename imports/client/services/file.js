@@ -8,6 +8,10 @@ const FileService = {
     return `//${settings.nos.domain}/${key}`
   },
 
+  getUrlForTimeCapsuleContentImage(key) {
+    return `${FileService.getUrl(key)}?imageView&thumbnail=1080x0&interlace=1`
+  },
+
   /**
    * upload time-capsule content image
    * @async

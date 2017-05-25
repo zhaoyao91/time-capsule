@@ -18,7 +18,7 @@ export default compose(
       image: {
         async uploadCallback(file) {
           const key = await FileService.uploadTimeCapsuleContentImage(file)
-          const url = FileService.getUrl(key)
+          const url = FileService.getUrlForTimeCapsuleContentImage(key)
           return {data: {link: url}}
         }
       }

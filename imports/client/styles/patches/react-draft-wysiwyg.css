@@ -21,4 +21,9 @@
 .public-DraftEditor-content figure > iframe {
   display: block;
   margin: auto;
+  max-width: 100%;
+}
+
+.rdw-image-imagewrapper img {
+  max-width: 100%;
 }

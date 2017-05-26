@@ -27,12 +27,12 @@ export default compose(
   }),
 )(function TimeCapsuleView ({timeCapsule}) {
   return <div>
-    <p>胶囊ID：{timeCapsule._id}</p>
-    <p>创建时间：{formatDate(timeCapsule.createdAt)}</p>
-    <p>开启时间：{formatDate(timeCapsule.openTime)}</p>
+    <p className="mb-2">胶囊ID：{timeCapsule._id}</p>
+    <p className="mb-2">创建时间：{formatDate(timeCapsule.createdAt)}</p>
+    <p className="mb-2">开启时间：{formatDate(timeCapsule.openTime)}</p>
     {
       timeCapsule.rawContent && <div>
-        <p>内容：</p>
+        <p className="mb-2">内容：</p>
         <TimeCapsuleContentView rawContent={timeCapsule.rawContent}/>
       </div>
     }

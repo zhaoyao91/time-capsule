@@ -10,6 +10,7 @@ import CenterLoading from '../views/CenterLoading'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withMeteor from '../../hocs/with_meteor'
 import withAlert from '../../hocs/with_alert'
+import TimeCapsuleView from '../views/TimeCapsuleView'
 
 export default compose(
   withRouter,
@@ -97,21 +98,3 @@ function OpenView ({timeCapsule}) {
 function WrongStateView () {
   return <Alert color="danger">状态错误。</Alert>
 }
-
-const TimeCapsuleView = compose(
-  withProps({
-    styles: {}
-  })
-)(function TimeCapsuleCard ({timeCapsule, styles}) {
-  return <div>
-    <p>胶囊ID：{timeCapsule._id}</p>
-    <p>创建时间：{moment(timeCapsule.createdAt).format('YYYY-MM-DD HH:mm:ss')}</p>
-    <p>开启时间：{moment(timeCapsule.openTime).format('YYYY-MM-DD HH:mm:ss')}</p>
-    {
-      timeCapsule.rawContent && <div>
-        <p>内容：</p>
-        <TimeCapsuleContentView rawContent={timeCapsule.rawContent}/>
-      </div>
-    }
-  </div>
-})

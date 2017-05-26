@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Form, FormGroup, Label, Input } from 'reactstrap'
+import { Button, Form, FormGroup, Label, TabPane } from 'reactstrap'
 import { compose, withHandlers, withState } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
@@ -10,6 +10,7 @@ import DatetimeInput from '../views/DatetimeInput'
 import withAlert from '../../hocs/with_alert'
 import withMeteor from '../../hocs/with_meteor'
 import TimeCapsuleContentEditor from '../views/TimeCapsuleContentEditor'
+import Tabs from '../views/Tabs'
 
 export default function CreateTimeCapsulePage () {
   return <MainPageLayout>
@@ -51,17 +52,32 @@ const CreateTimeCapsuleForm = compose(
         }
       })
     },
-  })
-)(function CreateTimeCapsuleForm ({onSubmit, openTime, onOpenTimeChange, contentEditorState, onContentEditorStateChange}) {
+  }),
+  withState('activeTab', 'setActiveTab', 'public-fields'),
+)(function CreateTimeCapsuleForm ({onSubmit, openTime, onOpenTimeChange, contentEditorState, onContentEditorStateChange, activeTab, setActiveTab}) {
   return <Form onSubmit={onSubmit}>
-    <FormGroup>
-      <Label>开启时间</Label>
-      <DatetimeInput value={openTime} onChange={onOpenTimeChange}/>
-    </FormGroup>
-    <FormGroup>
-      <Label>内容</Label>
-      <TimeCapsuleContentEditor editorState={contentEditorState} onEditorStateChange={onContentEditorStateChange}/>
-    </FormGroup>
-    <Button color="primary">创建</Button>
+    <Tabs activeTab={activeTab} switchTab={setActiveTab}>
+      <Tab tabId="public-fields" tabName="公开信息">
+        <FormGroup>
+          <Label>开启时间</Label>
+          <DatetimeInput value={openTime} onChange={onOpenTimeChange}/>
+        </FormGroup>
+      </Tab>
+      <Tab tabId="secret-fields" tabName="私密信息">
+        <FormGroup>
+          <Label>内容</Label>
+          <TimeCapsuleContentEditor editorState={contentEditorState} onEditorStateChange={onContentEditorStateChange}/>
+        </FormGroup>
+      </Tab>
+      <Tab tabId="preview" tabName="预览">
+        <Button color="primary">创建</Button>
+      </Tab>
+    </Tabs>
   </Form>
 })
+
+function Tab ({children}) {
+  return <div className="mt-2">
+    {children}
+  </div>
+}

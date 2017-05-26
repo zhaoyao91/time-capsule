@@ -1,6 +1,7 @@
 import React from 'react'
 import { Editor } from 'react-draft-wysiwyg'
 import { compose, withProps } from 'recompose'
+import { Random } from 'meteor/random'
 
 import withFileService from '../../hocs/with_file_service'
 
@@ -17,9 +18,15 @@ export default compose(
       },
       image: {
         async uploadCallback(file) {
-          const key = await FileService.uploadTimeCapsuleContentImage(file)
-          const url = FileService.getUrl(key)
-          return {data: {link: url}}
+          try {
+            const key = await FileService.uploadTimeCapsuleContentImage(file)
+            const url = FileService.getUrl(key)
+            return {data: {link: url}}
+          }
+          catch (err) {
+            console.error(err)
+            throw err
+          }
         }
       }
     },

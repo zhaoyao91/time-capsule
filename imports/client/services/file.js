@@ -2,6 +2,9 @@ import { Meteor } from 'meteor/meteor'
 
 import Uploader from '../lib/nos-js-sdk'
 import settings from '../settings'
+import imageUtils from '../utils/image'
+import fileUtils from '../utils/file'
+
 
 const FileService = {
   getUrl(key) {
@@ -14,8 +17,11 @@ const FileService = {
    * @param file
    * @returns key
    */
-  uploadTimeCapsuleContentImage(file) {
-    return new Promise((resolve, reject) => {
+  async uploadTimeCapsuleContentImage(file) {
+    file = await imageUtils.ensureMaxWidth(file, 1080)
+    file.name = fileUtils.changeBasename(file.name, Random.id())
+
+    return await new Promise((resolve, reject) => {
       const uploader = new Uploader({
         onError(err) {
           reject(err)

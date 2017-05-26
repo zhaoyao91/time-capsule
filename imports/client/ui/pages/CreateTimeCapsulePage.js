@@ -1,8 +1,10 @@
 import React from 'react'
 import { Button, Form, FormGroup, Label, TabPane } from 'reactstrap'
-import { compose, withHandlers, withState } from 'recompose'
+import { compose, withHandlers, withState, withProps } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
+import PropTypes from 'prop-types'
+import { css }from 'glamor'
 
 import { createEmptyEditorState, convertEditorStateToRaw } from '../../utils/draftjs'
 import MainPageLayout from '../layouts/MainPageLayout'
@@ -11,6 +13,8 @@ import withAlert from '../../hocs/with_alert'
 import withMeteor from '../../hocs/with_meteor'
 import TimeCapsuleContentEditor from '../views/TimeCapsuleContentEditor'
 import { Tabs, Tab } from '../views/Tabs'
+import TimeCapsuleView from '../views/TimeCapsuleView'
+import defineComponent from '../../hocs/define_component'
 
 export default function CreateTimeCapsulePage () {
   return <MainPageLayout>
@@ -54,7 +58,14 @@ const CreateTimeCapsuleForm = compose(
     },
   }),
   withState('activeTab', 'setActiveTab', 'public-fields'),
-)(function CreateTimeCapsuleForm ({onSubmit, openTime, onOpenTimeChange, contentEditorState, onContentEditorStateChange, activeTab, setActiveTab}) {
+  withProps({
+    styles: {
+      createButton: css({
+        'marginTop': '1rem'
+      })
+    }
+  })
+)(function CreateTimeCapsuleForm ({styles, onSubmit, openTime, onOpenTimeChange, contentEditorState, onContentEditorStateChange, activeTab, setActiveTab}) {
   return <Form onSubmit={onSubmit}>
     <Tabs activeTab={activeTab} switchTab={setActiveTab}>
       <Tab tabId="public-fields" tabName="公开信息">
@@ -70,8 +81,27 @@ const CreateTimeCapsuleForm = compose(
         </FormGroup>
       </Tab>
       <Tab tabId="preview" tabName="预览" tabLazy>
-        <Button color="primary">创建</Button>
+        <TimeCapsulePreview openTime={openTime} contentEditorState={contentEditorState}/>
+        <Button {...styles.createButton} color="primary">创建</Button>
       </Tab>
     </Tabs>
   </Form>
 })
+
+const TimeCapsulePreview = compose(
+  defineComponent('TimeCapsulePreview', {
+    openTime: PropTypes.oneOfType([
+      PropTypes.string,
+      PropTypes.instanceOf(moment)
+    ]),
+    contentEditorState: PropTypes.object
+  }),
+  withProps(({openTime, contentEditorState}) => ({
+    timeCapsule: {
+      _id: '（创建后自动生成）',
+      createdAt: '（创建后自动生成）',
+      openTime: openTime,
+      rawContent: convertEditorStateToRaw(contentEditorState)
+    }
+  }))
+)(TimeCapsuleView)

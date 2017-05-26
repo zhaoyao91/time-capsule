@@ -10,7 +10,7 @@ import DatetimeInput from '../views/DatetimeInput'
 import withAlert from '../../hocs/with_alert'
 import withMeteor from '../../hocs/with_meteor'
 import TimeCapsuleContentEditor from '../views/TimeCapsuleContentEditor'
-import Tabs from '../views/Tabs'
+import { Tabs, Tab } from '../views/Tabs'
 
 export default function CreateTimeCapsulePage () {
   return <MainPageLayout>
@@ -69,15 +69,9 @@ const CreateTimeCapsuleForm = compose(
           <TimeCapsuleContentEditor editorState={contentEditorState} onEditorStateChange={onContentEditorStateChange}/>
         </FormGroup>
       </Tab>
-      <Tab tabId="preview" tabName="预览">
+      <Tab tabId="preview" tabName="预览" tabLazy>
         <Button color="primary">创建</Button>
       </Tab>
     </Tabs>
   </Form>
 })
-
-function Tab ({children}) {
-  return <div className="mt-2">
-    {children}
-  </div>
-}

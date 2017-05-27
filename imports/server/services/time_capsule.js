@@ -1,23 +1,26 @@
 import { TimeCapsules } from '../collections'
-import { check } from'meteor/check'
+import { check, Match } from'meteor/check'
 
 const TimeCapsuleService = {
   /**
    * create a time capsule
    * @param timeCapsule
-   * @param timeCapsule.rawContent
+   * @param [timeCapsule.name]
+   * @param [timeCapsule.description]
+   * @param [timeCapsule.rawContent]
    * @param timeCapsule.openTime
    * @return id
    */
   create(timeCapsule) {
     check(timeCapsule, {
-      rawContent: Object,
+      name: Match.Optional(String),
+      description: Match.Optional(String),
+      rawContent: Match.Optional(Object),
       openTime: Date
     })
 
     const newTimeCapsule = {
-      rawContent: timeCapsule.rawContent,
-      openTime: timeCapsule.openTime,
+      ...timeCapsule,
       createdAt: new Date()
     }
 

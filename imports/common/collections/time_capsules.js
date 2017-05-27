@@ -3,9 +3,20 @@ import SimpleSchema from 'simpl-schema'
 
 const TimeCapsules = new Mongo.Collection('time_capsules')
 TimeCapsules.attachSchema(new SimpleSchema({
+  name: {
+    type: String,
+    optional: true,
+  },
+
+  description: {
+    type: String,
+    optional: true,
+  },
+
   rawContent: {
     type: Object,
-    blackbox: true
+    blackbox: true,
+    optional: true,
   },
 
   openTime: {

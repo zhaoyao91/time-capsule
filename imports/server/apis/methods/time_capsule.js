@@ -1,5 +1,5 @@
 import { Meteor } from 'meteor/meteor'
-import { check } from 'meteor/check'
+import { check, Match } from 'meteor/check'
 import { pick } from 'lodash/fp'
 
 import TimeCapsuleService from '../../services/time_capsule'
@@ -8,14 +8,18 @@ Meteor.methods({
   /**
    * create time capsule
    * @param timeCapsule
-   * @param timeCapsule.rawContent
+   * @param [timeCapsule.name]
+   * @param [timeCapsule.description]
+   * @param [timeCapsule.rawContent]
    * @param timeCapsule.openTime
    * @return id
    */
   'TimeCapsule.create'(timeCapsule) {
     check(timeCapsule, {
-      openTime: Date,
-      rawContent: Object
+      name: Match.Optional(String),
+      description: Match.Optional(String),
+      rawContent: Match.Optional(Object),
+      openTime: Date
     })
 
     return TimeCapsuleService.create(timeCapsule)
@@ -39,6 +43,6 @@ Meteor.methods({
     timeCapsule.isOpen = isOpen
 
     if (isOpen) return timeCapsule
-    else return pick(['_id', 'isOpen', 'openTime'], timeCapsule)
+    else return pick(['_id', 'isOpen', 'openTime', 'name', 'description'], timeCapsule)
   }
 })

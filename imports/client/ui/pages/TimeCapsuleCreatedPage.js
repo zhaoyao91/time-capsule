@@ -23,9 +23,9 @@ export default compose(
     styles: {
       jumbotron: css({
         'margin': 0,
-        'padding': '2rem 1rem',
+        'padding': '1rem',
         '& > *:not(:last-child)': {
-          'marginBottom': '1rem'
+          'marginBottom': '0.5em'
         },
         '& > *:last-child': {
           'marginBottom': 0

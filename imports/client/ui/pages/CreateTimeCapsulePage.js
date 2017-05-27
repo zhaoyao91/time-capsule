@@ -103,7 +103,7 @@ const CreateTimeCapsuleForm = compose(
         </FormGroup>
         <FormGroup>
           <Label>描述</Label>
-          <Input type="textarea" value={description} onChange={onDescriptionChange}/>
+          <Input type="textarea" rows="3" value={description} onChange={onDescriptionChange}/>
         </FormGroup>
         <FormGroup>
           <Label>开启时间</Label>

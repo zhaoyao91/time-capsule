@@ -4,7 +4,8 @@ import { compose, withHandlers, withState, withProps } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import moment from 'moment'
 import PropTypes from 'prop-types'
-import { css }from 'glamor'
+import FaAngleLeft from 'react-icons/lib/fa/caret-left'
+import FaAngleRight from 'react-icons/lib/fa/caret-right'
 
 import { createEmptyEditorState, convertEditorStateToRaw } from '../../utils/draftjs'
 import MainPageLayout from '../layouts/MainPageLayout'
@@ -15,6 +16,7 @@ import TimeCapsuleContentEditor from '../views/TimeCapsuleContentEditor'
 import { Tabs, Tab } from '../views/Tabs'
 import TimeCapsuleView from '../views/TimeCapsuleView'
 import defineComponent from '../../hocs/define_component'
+import withStyles from '../../hocs/with_styles'
 
 export default function CreateTimeCapsulePage () {
   return <MainPageLayout>
@@ -64,11 +66,14 @@ const CreateTimeCapsuleForm = compose(
     },
   }),
   withState('activeTab', 'setActiveTab', 'public-fields'),
-  withProps({
-    styles: {
-      createButton: css({
-        'marginTop': '1rem'
-      })
+  withHandlers({
+    activatePublicFieldsTab: ({setActiveTab}) => () => setActiveTab('public-fields'),
+    activateSecretFieldsTab: ({setActiveTab}) => () => setActiveTab('secret-fields'),
+    activatePreviewTab: ({setActiveTab}) => () => setActiveTab('preview'),
+  }),
+  withStyles('styles', {
+    previewWrapper: {
+      'marginBottom': '1rem'
     }
   })
 )(function CreateTimeCapsuleForm
@@ -85,6 +90,9 @@ const CreateTimeCapsuleForm = compose(
      onNameChange,
      description,
      onDescriptionChange,
+     activatePublicFieldsTab,
+     activateSecretFieldsTab,
+     activatePreviewTab,
    }) {
   return <Form onSubmit={onSubmit}>
     <Tabs activeTab={activeTab} switchTab={setActiveTab}>
@@ -101,16 +109,29 @@ const CreateTimeCapsuleForm = compose(
           <Label>开启时间</Label>
           <DatetimeInput value={openTime} onChange={onOpenTimeChange}/>
         </FormGroup>
+        <Actions>
+          <NextButton onClick={activateSecretFieldsTab}>隐藏信息</NextButton>
+        </Actions>
       </Tab>
-      <Tab tabId="secret-fields" tabName="私密信息">
+      <Tab tabId="secret-fields" tabName="隐藏信息">
         <FormGroup>
           <Label>内容</Label>
           <TimeCapsuleContentEditor editorState={contentEditorState} onEditorStateChange={onContentEditorStateChange}/>
         </FormGroup>
+        <Actions>
+          <PrevButton onClick={activatePublicFieldsTab}>公开信息</PrevButton>
+          <NextButton onClick={activatePreviewTab}>预览创建</NextButton>
+        </Actions>
       </Tab>
-      <Tab tabId="preview" tabName="预览" tabLazy>
-        <TimeCapsulePreview name={name} description={description} openTime={openTime} contentEditorState={contentEditorState}/>
-        <Button {...styles.createButton} color="primary">创建</Button>
+      <Tab tabId="preview" tabName="预览创建" tabLazy>
+        <div {...styles.previewWrapper}>
+          <TimeCapsulePreview name={name} description={description} openTime={openTime}
+                              contentEditorState={contentEditorState}/>
+        </div>
+        <Actions>
+          <PrevButton onClick={activateSecretFieldsTab}>隐藏信息</PrevButton>
+          <NextButton color="primary">确认创建</NextButton>
+        </Actions>
       </Tab>
     </Tabs>
   </Form>
@@ -137,3 +158,25 @@ const TimeCapsulePreview = compose(
     }
   }))
 )(TimeCapsuleView)
+
+const Actions = compose(
+  withStyles('styles', {
+    actions: {
+      'display': 'flex',
+      'justifyContent': 'flex-end',
+      '& > *:not(:last-child)': {
+        'marginRight': '1rem'
+      }
+    }
+  }),
+)(function Actions ({styles, children}) {
+  return <div {...styles.actions}>{children}</div>
+})
+
+function PrevButton ({children, ...otherProps}) {
+  return <Button {...otherProps}><FaAngleLeft/><span className="align-middle">{children}</span></Button>
+}
+
+function NextButton ({children, ...otherProps}) {
+  return <Button {...otherProps}><span className="align-middle">{children}</span><FaAngleRight/></Button>
+}

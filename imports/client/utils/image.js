@@ -25,6 +25,7 @@ export default {
         }
       }, {
         maxWidth: maxWidth,
+        orientation: true,
         canvas: true
       })
     })

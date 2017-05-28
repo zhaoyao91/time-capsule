@@ -3,6 +3,7 @@ import { Navbar, NavbarBrand, Nav, NavItem, NavLink } from 'reactstrap'
 import { withProps, compose } from 'recompose'
 import { css } from 'glamor'
 import { Link, withRouter } from 'react-router-dom'
+import Avatar from 'react-avatar'
 
 import Container from './Container'
 
@@ -43,7 +44,17 @@ export default compose(
             </NavItem>
           ))
         }
+        <NavItem>
+          <NavLink className="p-0 ml-2">
+            <UserItem/>
+          </NavLink>
+        </NavItem>
       </Nav>
     </Container>
   </Navbar>
 })
+
+function UserItem () {
+  return <Avatar name="?" round size={40}/>
+}
+

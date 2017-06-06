@@ -3,7 +3,7 @@ import { css } from 'glamor'
 import { withProps, compose } from 'recompose'
 
 import MainNavbar from '../views/MainNavbar'
-import Container from '../views/Container'
+import Container from '../components/Container'
 
 export default compose(
   withProps({

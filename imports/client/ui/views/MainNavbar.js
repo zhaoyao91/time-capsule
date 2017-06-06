@@ -18,7 +18,7 @@ import { Meteor } from 'meteor/meteor'
 import { prop } from 'lodash/fp'
 
 import { pointerCursor, noMinWidth } from '../../styles/styles'
-import Container from './Container'
+import Container from '../components/Container'
 import withCurrentUser from '../../hocs/with_current_user'
 import AccountModal from './AccountModal'
 

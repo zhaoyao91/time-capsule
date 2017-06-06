@@ -4,7 +4,7 @@ import { withRouter } from 'react-router-dom'
 import { Alert } from 'reactstrap'
 import { Meteor } from 'meteor/meteor'
 
-import CenterLoading from '../views/CenterLoading'
+import CenterLoading from '../components/CenterLoading'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withAlert from '../../hocs/with_alert'
 import TimeCapsuleView from '../views/TimeCapsuleView'

@@ -5,7 +5,7 @@ import { css }from 'glamor'
 import { withRouter } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
 
-import LinkText from '../views/LinkText'
+import LinkText from '../components/LinkText'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withRouteQuery from '../../hocs/with_route_query'
 import withViewId from '../../hocs/with_view_id'

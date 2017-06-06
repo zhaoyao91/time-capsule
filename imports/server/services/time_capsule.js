@@ -37,6 +37,15 @@ const TimeCapsuleService = {
   },
 
   /**
+   * check if a time capsule exists
+   * @param id
+   * @return {boolean} result
+   */
+  exists(id) {
+    return TimeCapsules.find({_id: id}, {fields: {_id: 1}, limit: 1}).count() > 0
+  },
+
+  /**
    * check if a time capsule is open
    * @param timeCapsule
    * @param currentTime

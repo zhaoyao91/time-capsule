@@ -44,5 +44,5 @@ Meteor.methods({
 
     if (isOpen) return timeCapsule
     else return pick(['_id', 'isOpen', 'openTime', 'name', 'description'], timeCapsule)
-  }
+  },
 })

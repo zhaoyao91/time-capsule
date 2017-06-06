@@ -1,42 +1,34 @@
-import React from 'react'
-import { Button } from 'reactstrap'
-import { compose, withProps } from 'recompose'
-import { css }from 'glamor'
+import React, { Component } from 'react'
 import { Link } from 'react-router-dom'
+import { Button } from 'reactstrap'
 
-export default compose(
-  withProps({
-    styles: {
-      page: css({
-        'width': '100vw',
-        'height': '100vh',
-        'display': 'flex'
-      }),
-      contentBox: css({
-        'margin': 'auto'
-      }),
-      headerBox: css({
-        'marginBottom': '1rem',
-        '& > *': {
-          'margin': '0'
-        }
-      }),
-      buttonsBox: css({
-        'display': 'flex',
-        'justifyContent': 'space-between'
-      })
-    }
-  })
-)(function HomePage ({styles}) {
-  return <div {...styles.page}>
-    <div {...styles.contentBox}>
-      <div {...styles.headerBox}>
-        <h1>时光胶囊</h1>
-      </div>
-      <div {...styles.buttonsBox}>
-        <Button color="primary" tag={Link} to="/time-capsule/create">创建</Button>
-        <Button color="primary" tag={Link} to="/time-capsule/open">打开</Button>
-      </div>
-    </div>
-  </div>
+import withStyles from '../../hocs/with_styles'
+import MainPageLayout from '../layouts/MainPageLayout'
+
+@withStyles('styles', {
+  centeredBox: {
+    position: 'fixed',
+    top: '50%',
+    left: '50%',
+    transform: 'translate(-50%, -50%)'
+  },
+  buttonsBox: {
+    display: 'flex',
+    justifyContent: 'space-between',
+    width: 160
+  }
 })
+export default class HomePage extends Component {
+  render () {
+    const {styles} = this.props
+    return <MainPageLayout>
+      <div {...styles.centeredBox}>
+        <h1>时光胶囊</h1>
+        <div {...styles.buttonsBox}>
+          <Button tag={Link} to="/time-capsule/create" color="primary">创建</Button>
+          <Button tag={Link} to="/time-capsule/open" color="primary">打开</Button>
+        </div>
+      </div>
+    </MainPageLayout>
+  }
+}

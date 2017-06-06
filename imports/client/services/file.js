@@ -5,7 +5,6 @@ import settings from '../settings'
 import imageUtils from '../utils/image'
 import fileUtils from '../utils/file'
 
-
 const FileService = {
   getUrl(key) {
     return `//${settings.nos.domain}/${key}`

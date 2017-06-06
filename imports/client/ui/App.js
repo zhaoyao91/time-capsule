@@ -3,9 +3,9 @@ import Alert from 'react-s-alert'
 
 import Routes from './Routes'
 
-export default function App () {
+export default function App ({history}) {
   return <div>
-    <Routes/>
+    <Routes history={history}/>
     <Alert stack={{limit: 3}} effect='slide'/>
   </div>
 }

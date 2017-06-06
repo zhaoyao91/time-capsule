@@ -165,7 +165,7 @@ const Actions = compose(
       'display': 'flex',
       'justifyContent': 'flex-end',
       '& > *:not(:last-child)': {
-        'marginRight': '1rem'
+        'marginRight': '0.5rem'
       }
     }
   }),

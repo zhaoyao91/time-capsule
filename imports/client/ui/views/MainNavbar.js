@@ -15,6 +15,7 @@ import { css } from 'glamor'
 import { Link, withRouter } from 'react-router-dom'
 import Avatar from 'react-avatar'
 import { Meteor } from 'meteor/meteor'
+import { prop } from 'lodash/fp'
 
 import { pointerCursor, noMinWidth } from '../../styles/styles'
 import Container from './Container'
@@ -79,13 +80,16 @@ class UserItem extends Component {
   logout: () => () => Meteor.logout(),
   goMyTimeCapsules: ({history}) => () => history.push('/my/time-capsules')
 })
+@withProps(({user}) => ({
+  avatarValue: getEmailName(prop('emails.0.address', user) || '').slice(0, 2)
+}))
 class LoggedInUserItem extends Component {
   render () {
-    const {logout, goMyTimeCapsules} = this.props
+    const {logout, goMyTimeCapsules, avatarValue} = this.props
     return <NavLink className="p-0 ml-2">
       <UncontrolledDropdown>
         <DropdownToggle tag="div" {...pointerCursor}>
-          <Avatar name="User" round size={40}/>
+          <Avatar name={name} round size={40} value={avatarValue} textSizeRatio={2.5}/>
         </DropdownToggle>
         <DropdownMenu right {...noMinWidth}>
           <DropdownItem {...pointerCursor} onClick={goMyTimeCapsules}>我的胶囊</DropdownItem>
@@ -109,4 +113,8 @@ class LoginItem extends Component {
       <AccountModal isOpen={isModalOpen} toggle={toggleModal}/>
     </NavLink>
   }
+}
+
+function getEmailName (email) {
+  return email.substr(0, email.indexOf('@'))
 }

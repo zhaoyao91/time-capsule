@@ -5,7 +5,7 @@ import fileUtils from './file'
 export default {
   /**
    * ensure image width is within given max width
-   * note: this will change image to jpg type
+   * note: this will change file type to jpg
    * @async
    * @param file
    * @param maxWidth
@@ -19,7 +19,7 @@ export default {
         }
         else {
           canvas.toBlob((blob) => {
-            blob.name = fileUtils.changeExtension(file.name, '.jpg')
+            blob.name = fileUtils.replaceExtension(file.name, '.jpg')
             resolve(blob)
           }, 'image/jpeg')
         }

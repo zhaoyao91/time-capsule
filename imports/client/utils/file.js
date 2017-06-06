@@ -1,9 +1,9 @@
 export default {
-  changeBasename(filename, newBasename) {
+  replaceBasename(filename, newBasename) {
     return newBasename + filename.substr(filename.lastIndexOf('.'))
   },
 
-  changeExtension(filename, newExtension) {
+  replaceExtension(filename, newExtension) {
     return filename.substr(0, filename.lastIndexOf('.')) + newExtension
   }
 }

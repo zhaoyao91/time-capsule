@@ -3,11 +3,10 @@ import { Editor } from 'react-draft-wysiwyg'
 import { compose, withProps } from 'recompose'
 import { Random } from 'meteor/random'
 
-import withFileService from '../../hocs/with_file_service'
+import FileService from '../../services/file'
 
 export default compose(
-  withFileService('FileService'),
-  withProps(({FileService}) => ({
+  withProps(() => ({
     toolbar: {
       options: ['blockType', 'inline', 'list', 'colorPicker', 'link', 'embedded', 'image'],
       inline: {

@@ -5,11 +5,11 @@ import { Form, FormGroup, Input, Label, Button } from 'reactstrap'
 import { Accounts } from 'meteor/accounts-base'
 
 import MainPageLayout from '../layouts/MainPageLayout'
-import withMatchedRouteParams from '../../hocs/with_matched_route_params'
+import withRouteParams from '../../hocs/with_route_params'
 import withAlert from '../../hocs/with_alert'
 
 @withRouter
-@withMatchedRouteParams('params')
+@withRouteParams('params')
 @withProps(({params}) => ({token: params.token}))
 export default class ResetPasswordPage extends Component {
   render () {

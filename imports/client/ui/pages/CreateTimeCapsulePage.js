@@ -6,12 +6,12 @@ import moment from 'moment'
 import PropTypes from 'prop-types'
 import FaAngleLeft from 'react-icons/lib/fa/caret-left'
 import FaAngleRight from 'react-icons/lib/fa/caret-right'
+import { Meteor } from 'meteor/meteor'
 
 import { createEmptyEditorState, convertEditorStateToRaw } from '../../utils/draftjs'
 import MainPageLayout from '../layouts/MainPageLayout'
 import DatetimeInput from '../views/DatetimeInput'
 import withAlert from '../../hocs/with_alert'
-import withMeteor from '../../hocs/with_meteor'
 import TimeCapsuleContentEditor from '../views/TimeCapsuleContentEditor'
 import { Tabs, Tab } from '../views/Tabs'
 import TimeCapsuleView from '../views/TimeCapsuleView'
@@ -26,7 +26,6 @@ export default function CreateTimeCapsulePage () {
 
 const CreateTimeCapsuleForm = compose(
   withAlert('alert'),
-  withMeteor('meteor'),
   withRouter,
   withState('name', 'setName', ''),
   withState('description', 'setDescription', ''),
@@ -37,7 +36,7 @@ const CreateTimeCapsuleForm = compose(
     onDescriptionChange: ({setDescription}) => e => setDescription(e.target.value),
     onOpenTimeChange: ({setOpenTime}) => time => setOpenTime(time),
     onContentEditorStateChange: ({setContentEditorState}) => state => setContentEditorState(state),
-    onSubmit: ({name, description, openTime, alert, meteor, history, contentEditorState}) => e => {
+    onSubmit: ({name, description, openTime, alert, history, contentEditorState}) => e => {
       e.preventDefault()
 
       if (typeof openTime === 'string') {
@@ -53,7 +52,7 @@ const CreateTimeCapsuleForm = compose(
         rawContent: rawContent,
       }
 
-      meteor.call('TimeCapsule.create', newTimeCapsule, (err, id) => {
+      Meteor.call('TimeCapsule.create', newTimeCapsule, (err, id) => {
         if (err) {
           console.error(err)
           alert.error('创建失败')

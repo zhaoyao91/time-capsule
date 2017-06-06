@@ -7,14 +7,14 @@ import CopyToClipboard from 'react-copy-to-clipboard'
 
 import LinkText from '../views/LinkText'
 import MainPageLayout from '../layouts/MainPageLayout'
-import withParsedQueryObject from '../../hocs/with_parsed_query_object'
+import withRouteQuery from '../../hocs/with_route_query'
 import withViewId from '../../hocs/with_view_id'
-import withMatchedRouteParams from '../../hocs/with_matched_route_params'
+import withRouteParams from '../../hocs/with_route_params'
 
 export default compose(
   withRouter,
-  withParsedQueryObject('query'),
-  withMatchedRouteParams('params'),
+  withRouteQuery('query'),
+  withRouteParams('params'),
   withProps(({params, query}) => ({
     timeCapsuleId: params.timeCapsuleId,
     openTimeString: query.openTimeString

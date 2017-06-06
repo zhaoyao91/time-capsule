@@ -1,14 +1,11 @@
 import React from 'react'
 import { compose, withProps, withState, withHandlers, lifecycle } from 'recompose'
 import { withRouter } from 'react-router-dom'
-import { css }from 'glamor'
-import { Alert, Card, CardBlock, CardText } from 'reactstrap'
-import moment from 'moment'
+import { Alert } from 'reactstrap'
+import { Meteor } from 'meteor/meteor'
 
-import TimeCapsuleContentView from '../views/TimeCapsuleContentView'
 import CenterLoading from '../views/CenterLoading'
 import MainPageLayout from '../layouts/MainPageLayout'
-import withMeteor from '../../hocs/with_meteor'
 import withAlert from '../../hocs/with_alert'
 import TimeCapsuleView from '../views/TimeCapsuleView'
 
@@ -29,15 +26,14 @@ export default compose(
       else 'open'
     }
   })),
-  withMeteor('meteor'),
   withAlert('alert'),
   withHandlers({
-    reload: ({meteor, alert, setError, setLoading, setTimeCapsule, timeCapsuleId}) => () => {
+    reload: ({alert, setError, setLoading, setTimeCapsule, timeCapsuleId}) => () => {
       setError(false)
       setLoading(true)
       setTimeCapsule(null)
 
-      meteor.call('TimeCapsule.open', timeCapsuleId, (err, timeCapsule) => {
+      Meteor.call('TimeCapsule.open', timeCapsuleId, (err, timeCapsule) => {
         setLoading(false)
         if (err) {
           console.error(err)

@@ -4,10 +4,10 @@ import { withState, withHandlers } from 'recompose'
 import { withMethod, defineMethod } from 'react-method'
 import { prop, trim } from 'lodash/fp'
 import isEmail from 'validator/lib/isEmail'
+import { Accounts } from 'meteor/accounts-base'
+import { Meteor } from 'meteor/meteor'
 
-import withMeteor from '../../hocs/with_meteor'
 import withAlert from '../../hocs/with_alert'
-import withMeteorAccounts from '../../hocs/with_meteor_accounts'
 
 export default class AccountModal extends Component {
   render () {
@@ -63,17 +63,16 @@ class LoginModalView extends Component {
 
 @withState('email', 'setEmail', '')
 @withState('password', 'setPassword', '')
-@withMeteor('meteor')
 @withAlert('alert')
 @withHandlers({
-  submit: ({meteor, alert, email, password}) => () => {
+  submit: ({alert, email, password}) => () => {
     email = trim(email)
     password = trim(password)
 
     if (!isEmail(email)) return alert.error('请输入正确的邮箱')
     if (!password) return alert.error('密码不能为空')
 
-    meteor.loginWithPassword(email, password, (err) => {
+    Meteor.loginWithPassword(email, password, (err) => {
       if (err) {
         console.error(err)
         if (err.reason === 'Incorrect password') alert.error('密码错误')
@@ -136,17 +135,16 @@ class SignupModalView extends Component {
 
 @withState('email', 'setEmail', '')
 @withState('password', 'setPassword', '')
-@withMeteorAccounts('accounts')
 @withAlert('alert')
 @withHandlers({
-  submit: ({accounts, alert, email, password}) => () => {
+  submit: ({alert, email, password}) => () => {
     email = trim(email)
     password = trim(password)
 
     if (!isEmail(email)) return alert.error('请输入正确的邮箱')
     if (!password) return alert.error('密码不能为空')
 
-    accounts.createUser({email, password}, (err) => {
+    Accounts.createUser({email, password}, (err) => {
       if (err) {
         console.error(err)
         if (err.reason === 'Email already exists.') alert.error('该用户已经注册')
@@ -207,15 +205,14 @@ class ForgotPasswordModalView extends Component {
 }
 
 @withState('email', 'setEmail', '')
-@withMeteorAccounts('accounts')
 @withAlert('alert')
 @withHandlers({
-  submit: ({accounts, alert, email}) => () => {
+  submit: ({alert, email}) => () => {
     email = trim(email)
 
     if (!isEmail(email)) return alert.error('请输入正确的邮箱')
 
-    accounts.forgotPassword({email}, (err) => {
+    Accounts.forgotPassword({email}, (err) => {
       if (err) {
         console.error(err)
         if (err.reason === 'User not found') alert.error('该用户尚未注册')

@@ -122,7 +122,7 @@ class CollectedTimeCapsulesView extends Component {
 @withAlert('alert')
 @withRouter
 @withHandlers({
-  uncollect: ({timeCapsuleId}) => () => {
+  uncollect: ({timeCapsuleId, alert}) => () => {
     Meteor.call('CollectedTimeCapsule.uncollect', timeCapsuleId, (err) => {
       if (err) {
         console.error(err)
@@ -150,9 +150,9 @@ class CollectedTimeCapsulesView extends Component {
 class CollectedTimeCapsuleCard extends Component {
   render () {
     const {styles, timeCapsuleId: id, name, openTime, createdAt, uncollect, goTimeCapsule} = this.props
-    return <Card onClick={goTimeCapsule} {...pointerCursor}>
+    return <Card>
       <CardBlock>
-        <div {...styles.title}>{name || id}</div>
+        <div {...styles.title} {...pointerCursor} onClick={goTimeCapsule}>{name || id}</div>
         <div>胶囊ID：{id}</div>
         <div>创建时间：{datetimeUtils.format(createdAt)}</div>
         <div>开启时间：{datetimeUtils.format(openTime)}</div>

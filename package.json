@@ -6,6 +6,7 @@
   },
   "dependencies": {
     "babel-runtime": "^6.20.0",
+    "bcrypt": "^1.0.2",
     "blueimp-load-image": "^2.12.2",
     "bootstrap": "^4.0.0-alpha.6",
     "classnames": "^2.2.5",
@@ -14,7 +15,7 @@
     "glamor": "^2.20.25",
     "jquery": "^3.2.1",
     "lodash": "^4.17.4",
-    "meteor-node-stubs": "~0.2.4",
+    "meteor-node-stubs": "^0.2.11",
     "moment": "^2.18.1",
     "prop-types": "^15.5.10",
     "qs": "^6.4.0",
@@ -34,7 +35,7 @@
     "simpl-schema": "^0.3.0"
   },
   "devDependencies": {
-    "babel-preset-env": "^1.4.0",
+    "babel-preset-env": "^1.5.1",
     "babel-preset-react": "^6.24.1",
     "babel-preset-stage-0": "^6.24.1"
   }

@@ -36,6 +36,8 @@ const OpenTimeCapsuleForm = compose(
       <Label>胶囊ID</Label>
       <Input value={timeCapsuleId} onChange={onTimeCapsuleIdChange}/>
     </FormGroup>
-    <Button color="primary">打开</Button>
+    <div className="d-flex justify-content-end">
+      <Button color="primary">打开</Button>
+    </div>
   </Form>
 })

@@ -52,7 +52,7 @@ export default class TimeCapsuleCreatedPage extends Component {
       </p>
       <p>开启时间：{openTimeString}</p>
       <p>请妥善保管好您的胶囊ID，并在开启时间之后使用它来开启胶囊。</p>
-      <div>
+      <div className="d-flex justify-content-end">
         <Button color="primary" className="mr-2" tag={Link} to={`/time-capsules/${timeCapsuleId}`}>打开胶囊</Button>
         <Button color="primary" onClick={collectTimeCapsule}>收藏胶囊</Button>
       </div>

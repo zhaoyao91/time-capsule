@@ -5,6 +5,7 @@ import { Meteor } from 'meteor/meteor'
 import FaClose from 'react-icons/lib/fa/close'
 import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
+import { SubsCache } from 'meteor/ccorcos:subs-cache'
 
 import datetimeUtils from '../../utils/datetime'
 import withMeteorData from '../../hocs/with_meteor_data'
@@ -77,12 +78,15 @@ class CollectTimeCapsuleButton extends Component {
   }
 }
 
+@withProps({
+  subsCache: new SubsCache()
+})
 @withCurrentUser('currentUser')
-@withMeteorData(({currentUser}) => {
+@withMeteorData(({currentUser, subsCache}) => {
   if (currentUser.loggingIn) return {ready: false}
   else if (!currentUser.user) return {ready: true, collectedTimeCapsules: []}
   else {
-    const sub = Meteor.subscribe('CollectedTimeCapsule.myCollectedTimeCapsules')
+    const sub = subsCache.subscribe('CollectedTimeCapsule.myCollectedTimeCapsules')
     return {
       ready: sub.ready(),
       collectedTimeCapsules: CollectedTimeCapsules.find({userId: currentUser.user._id}).fetch()

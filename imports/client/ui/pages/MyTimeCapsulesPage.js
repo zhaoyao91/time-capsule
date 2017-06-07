@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Row, Col, Button, Card, CardBlock } from 'reactstrap'
-import { withState, withHandlers, branch, renderComponent } from 'recompose'
+import { withProps, withState, withHandlers, branch, renderComponent } from 'recompose'
 import { Meteor } from 'meteor/meteor'
 import FaClose from 'react-icons/lib/fa/close'
 import PropTypes from 'prop-types'
@@ -17,6 +17,7 @@ import CenterLoading from '../components/CenterLoading'
 import withStyles from '../../hocs/with_styles'
 import { pointerCursor } from '../../styles/styles'
 import defineComponent from '../../hocs/define_component'
+import withNow from '../../hocs/with_now'
 
 @withStyles('styles', {
   collectTimeCapsuleButtonWrapper: {
@@ -137,6 +138,11 @@ class CollectedTimeCapsulesView extends Component {
     history.push(`/time-capsules/${timeCapsuleId}`)
   }
 })
+@withNow('now')
+@withProps(({now, openTime}) => ({
+  isOpen: openTime < now,
+  remainingTime: datetimeUtils.readableTimeSpan(now, openTime),
+}))
 @withStyles('styles', {
   title: {
     fontSize: '1.5rem'
@@ -149,13 +155,18 @@ class CollectedTimeCapsulesView extends Component {
 })
 class CollectedTimeCapsuleCard extends Component {
   render () {
-    const {styles, timeCapsuleId: id, name, openTime, createdAt, uncollect, goTimeCapsule} = this.props
+    const {styles, name, openTime, createdAt, uncollect, goTimeCapsule, isOpen, remainingTime} = this.props
     return <Card>
       <CardBlock>
-        <div {...styles.title} {...pointerCursor} onClick={goTimeCapsule}>{name || id}</div>
-        <div>胶囊ID：{id}</div>
+        <div {...styles.title} {...pointerCursor} onClick={goTimeCapsule}>{name}</div>
         <div>创建时间：{datetimeUtils.format(createdAt)}</div>
         <div>开启时间：{datetimeUtils.format(openTime)}</div>
+        {
+          isOpen && <div className="text-success">已开启</div>
+        }
+        {
+          !isOpen && <div>剩余时间：{remainingTime}</div>
+        }
         <div {...styles.closeButtonWrapper}><CloseButton onClick={uncollect}/></div>
       </CardBlock>
     </Card>

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { compose, withProps, withState, withHandlers, lifecycle } from 'recompose'
 import { withRouter } from 'react-router-dom'
 import { Alert } from 'reactstrap'
@@ -8,6 +8,8 @@ import CenterLoading from '../components/CenterLoading'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withAlert from '../../hocs/with_alert'
 import TimeCapsuleView from '../views/TimeCapsuleView'
+import withNow from '../../hocs/with_now'
+import datetimeUtils from '../../utils/datetime'
 
 export default compose(
   withRouter,
@@ -78,11 +80,22 @@ function NotFoundView () {
   return <Alert color="info">没有找到这个胶囊。</Alert>
 }
 
-function NotOpenView ({reload, timeCapsule}) {
-  return <div>
-    <Alert color="warning">尚未到达开启时间，无法查看胶囊内容。</Alert>
-    <TimeCapsuleView timeCapsule={timeCapsule}/>
-  </div>
+@withNow('now')
+@withProps(({now, timeCapsule}) => ({
+  remainingTime: datetimeUtils.readableTimeSpan(now, timeCapsule.openTime)
+}))
+class NotOpenView extends Component {
+  render () {
+    const {reload, timeCapsule, remainingTime} = this.props
+    return <div>
+      <Alert color="warning">
+        <div>尚未到达开启时间，无法查看胶囊内容。</div>
+        <div>剩余时间：{remainingTime}</div>
+      </Alert>
+      <TimeCapsuleView timeCapsule={timeCapsule}/>
+    </div>
+
+  }
 }
 
 function OpenView ({timeCapsule}) {

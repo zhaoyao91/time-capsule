@@ -1,6 +1,6 @@
 import { CollectedTimeCapsules } from '../collections'
 import { check } from'meteor/check'
-import { prop, pick } from 'lodash/fp'
+import { prop, pick, defaults, compose } from 'lodash/fp'
 import { Meteor } from 'meteor/meteor'
 
 import TimeCapsuleService from './time_capsule'
@@ -20,7 +20,12 @@ const CollectedTimeCapsuleService = {
       throw new Meteor.Error('no-time-capsule', 'cannot find this time-capsule')
     }
 
-    CollectedTimeCapsules.upsert({userId, timeCapsuleId}, {$set: pick(['name', 'openTime', 'createdAt'], timeCapsule)})
+    const doc = compose(
+      defaults({name: timeCapsuleId}),
+      pick(['name', 'openTime', 'createdAt']),
+    )(timeCapsule)
+
+    CollectedTimeCapsules.upsert({userId, timeCapsuleId}, {$set: doc})
   },
 
   /**

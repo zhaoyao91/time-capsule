@@ -1,42 +1,50 @@
-import React from 'react'
-import { Popover, PopoverContent, Jumbotron } from 'reactstrap'
-import { compose, withProps, withHandlers, withState } from 'recompose'
-import { css }from 'glamor'
-import { withRouter } from 'react-router-dom'
+import React, { Component } from 'react'
+import { Alert, Popover, PopoverContent, Jumbotron, Button } from 'reactstrap'
+import { withProps, withHandlers, withState } from 'recompose'
+import { withRouter, Link } from 'react-router-dom'
 import CopyToClipboard from 'react-copy-to-clipboard'
+import { Meteor } from 'meteor/meteor'
 
 import LinkText from '../components/LinkText'
 import MainPageLayout from '../layouts/MainPageLayout'
 import withRouteQuery from '../../hocs/with_route_query'
 import withViewId from '../../hocs/with_view_id'
 import withRouteParams from '../../hocs/with_route_params'
+import withCurrentUser from '../../hocs/with_current_user'
+import withAlert from '../../hocs/with_alert'
 
-export default compose(
-  withRouter,
-  withRouteQuery('query'),
-  withRouteParams('params'),
-  withProps(({params, query}) => ({
-    timeCapsuleId: params.timeCapsuleId,
-    openTimeString: query.openTimeString
-  })),
-  withProps({
-    styles: {
-      jumbotron: css({
-        'margin': 0,
-        'padding': '1rem',
-        '& > *:not(:last-child)': {
-          'marginBottom': '0.5em'
-        },
-        '& > *:last-child': {
-          'marginBottom': 0
+@withRouter
+@withRouteQuery('query')
+@withRouteParams('params')
+@withProps(({params, query}) => ({
+  timeCapsuleId: params.timeCapsuleId,
+  openTimeString: query.openTimeString
+}))
+@withCurrentUser('currentUser')
+@withAlert('alert')
+@withHandlers({
+  collectTimeCapsule: ({timeCapsuleId, currentUser, alert}) => () => {
+    if (currentUser.loggingIn || !currentUser.user) {
+      alert.error('登录后才能收藏胶囊')
+    }
+    else {
+      Meteor.call('CollectedTimeCapsule.collect', timeCapsuleId, (err) => {
+        if (err) {
+          console.error(err)
+          alert.error('收藏失败')
+        }
+        else {
+          alert.success('收藏成功')
         }
       })
     }
-  })
-)(function TimeCapsuleCreatedPage ({styles, timeCapsuleId, openTimeString}) {
-  return <MainPageLayout>
-    <Jumbotron {...styles.jumbotron}>
-      <h1>创建成功！</h1>
+  }
+})
+export default class TimeCapsuleCreatedPage extends Component {
+  render () {
+    const {timeCapsuleId, openTimeString, collectTimeCapsule} = this.props
+    return <MainPageLayout>
+      <Alert color="success">创建成功！</Alert>
       <p>
         胶囊ID：
         <span>{timeCapsuleId}</span>
@@ -44,18 +52,23 @@ export default compose(
       </p>
       <p>开启时间：{openTimeString}</p>
       <p>请妥善保管好您的胶囊ID，并在开启时间之后使用它来开启胶囊。</p>
-    </Jumbotron>
-  </MainPageLayout>
-})
+      <div>
+        <Button color="primary" className="mr-2" tag={Link} to={`/time-capsules/${timeCapsuleId}`}>打开胶囊</Button>
+        <Button color="primary" onClick={collectTimeCapsule}>收藏胶囊</Button>
+      </div>
+    </MainPageLayout>
+  }
+}
 
-const ClickCopyText = compose(
-  withViewId('id'),
-  withState('isOpen', 'setOpen', false),
-  withHandlers({
-    toggleOpen: ({setOpen, isOpen}) => () => setOpen(!isOpen)
-  }),
-)(function ClickCopyText ({id, text, children, isOpen, toggleOpen}) {
-  return <span>
+@withViewId('id')
+@withState('isOpen', 'setOpen', false)
+@withHandlers({
+  toggleOpen: ({setOpen, isOpen}) => () => setOpen(!isOpen)
+})
+class ClickCopyText extends Component {
+  render () {
+    const {id, text, children, isOpen, toggleOpen} = this.props
+    return <span>
     <CopyToClipboard text={text}>
       <LinkText id={id} onClick={toggleOpen}>{children}</LinkText>
     </CopyToClipboard>
@@ -63,4 +76,5 @@ const ClickCopyText = compose(
       <PopoverContent>复制成功</PopoverContent>
     </Popover>
   </span>
-})
+  }
+}

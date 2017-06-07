@@ -12,10 +12,13 @@ import MainPageLayout from '../layouts/MainPageLayout'
     left: '50%',
     transform: 'translate(-50%, -50%)'
   },
+  title: {
+    marginBottom: '1rem'
+  },
   buttonsBox: {
     display: 'flex',
     justifyContent: 'space-between',
-    width: 160
+    width: '10rem'
   }
 })
 export default class HomePage extends Component {
@@ -23,7 +26,7 @@ export default class HomePage extends Component {
     const {styles} = this.props
     return <MainPageLayout>
       <div {...styles.centeredBox}>
-        <h1>时光胶囊</h1>
+        <h1 {...styles.title}>时光胶囊</h1>
         <div {...styles.buttonsBox}>
           <Button tag={Link} to="/time-capsule/create" color="primary">创建</Button>
           <Button tag={Link} to="/time-capsule/open" color="primary">打开</Button>

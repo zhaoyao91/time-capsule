@@ -7,7 +7,9 @@ import PropTypes from 'prop-types'
 import { withRouter } from 'react-router-dom'
 import { SubsCache } from 'meteor/ccorcos:subs-cache'
 import FaEdit from 'react-icons/lib/fa/edit'
+import { isEmpty } from 'lodash/fp'
 
+import withConfirm from '../../hocs/with_confirm'
 import datetimeUtils from '../../utils/datetime'
 import withMeteorData from '../../hocs/with_meteor_data'
 import MainPageLayout from '../layouts/MainPageLayout'
@@ -108,15 +110,20 @@ class CollectTimeCapsuleButton extends Component {
 class CollectedTimeCapsulesView extends Component {
   render () {
     const {collectedTimeCapsules, styles} = this.props
-    return <Row {...styles.row}>
-      {
-        collectedTimeCapsules.map(tc => (
-          <Col key={tc._id} xs={12} md={6} {...styles.col}>
-            <CollectedTimeCapsuleCard {...tc}/>
-          </Col>
-        ))
-      }
-    </Row>
+    if (isEmpty(collectedTimeCapsules)) {
+      return <p>您还没有收藏任何时光胶囊。</p>
+    }
+    else {
+      return <Row {...styles.row}>
+        {
+          collectedTimeCapsules.map(tc => (
+            <Col key={tc._id} xs={12} md={6} {...styles.col}>
+              <CollectedTimeCapsuleCard {...tc}/>
+            </Col>
+          ))
+        }
+      </Row>
+    }
   }
 }
 
@@ -129,15 +136,24 @@ class CollectedTimeCapsulesView extends Component {
 @withAlert('alert')
 @withRouter
 @withPrompt('prompt')
+@withConfirm('confirm')
 @withHandlers({
-  uncollect: ({timeCapsuleId, alert}) => () => {
-    Meteor.call('CollectedTimeCapsule.uncollect', timeCapsuleId, (err) => {
-      if (err) {
-        console.error(err)
-        alert.error('移除失败')
-      }
-      else {
-        alert.success('移除成功')
+  uncollect: ({timeCapsuleId, alert, confirm}) => () => {
+    confirm({
+      header: '移除胶囊',
+      content: '确定要移除胶囊？',
+      callback: (confirmed) => {
+        if (confirmed) {
+          Meteor.call('CollectedTimeCapsule.uncollect', timeCapsuleId, (err) => {
+            if (err) {
+              console.error(err)
+              alert.error('移除失败')
+            }
+            else {
+              alert.success('移除成功')
+            }
+          })
+        }
       }
     })
   },

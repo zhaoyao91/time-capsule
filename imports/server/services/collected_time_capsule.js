@@ -1,5 +1,5 @@
 import { CollectedTimeCapsules } from '../collections'
-import { check } from'meteor/check'
+import { check, Match } from'meteor/check'
 import { prop, pick, defaults, compose } from 'lodash/fp'
 import { Meteor } from 'meteor/meteor'
 
@@ -39,6 +39,20 @@ const CollectedTimeCapsuleService = {
 
     CollectedTimeCapsules.remove({userId, timeCapsuleId})
   },
+
+  /**
+   * update name of collected time capsule
+   * @param userId
+   * @param timeCapsuleId
+   * @param name
+   */
+  updateName(userId, timeCapsuleId, name) {
+    check(userId, String)
+    check(timeCapsuleId, String)
+    check(name, String)
+
+    CollectedTimeCapsules.update({userId, timeCapsuleId}, {$set: {name}})
+  }
 }
 
 export default CollectedTimeCapsuleService

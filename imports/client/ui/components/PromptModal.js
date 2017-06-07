@@ -12,18 +12,19 @@ import defineComponent from '../../hocs/define_component'
   label: PropTypes.string,
   cancelButton: PropTypes.string,
   confirmButton: PropTypes.string,
+  defaultValue: PropTypes.string,
   validate: PropTypes.func, // func(value): result
   callback: PropTypes.func, // func(value), null for cancel, string for confirmed
 })
 @defaultProps({
   cancelButton: '取消',
   confirmButton: '确定',
-  validate: () => true
+  validate: () => true,
+  defaultValue: '',
 })
-@withState('value', 'setValue', '')
+@withState('value', 'setValue', ({defaultValue}) => defaultValue)
 @withHandlers({
-  toggle: ({toggle, value, setValue, callback}) => (confirmed) => {
-    setValue('')
+  toggle: ({toggle, value, setValue, callback, defaultValue}) => (confirmed) => {
     toggle()
     callback(confirmed === true ? value : null)
   }

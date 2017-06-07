@@ -34,4 +34,22 @@ Meteor.methods({
 
     CollectedTimeCapsuleService.uncollect(userId, timeCapsuleId)
   },
+
+  /**
+   * update collected time capsule name
+   * @param timeCapsuleId
+   * @param name
+   * @constructor
+   */
+  'CollectedTimeCapsule.updateName'(timeCapsuleId, name) {
+    check(timeCapsuleId, String)
+    check(name, String)
+
+    const userId = this.userId
+    if (!userId) {
+      throw new Meteor.Error('not-login', 'user must login')
+    }
+
+    CollectedTimeCapsuleService.updateName(userId, timeCapsuleId, name)
+  },
 })

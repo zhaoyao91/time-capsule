@@ -4,9 +4,14 @@ import { prop } from 'lodash/fp'
 import { need } from '../common/utils/settings'
 
 export default {
-  nos: {
-    bucket: need(prop('settings.public.nos.bucket', Meteor)),
-    accessKey: need(prop('settings.nos.accessKey', Meteor)),
-    accessSecret: need(prop('settings.nos.accessSecret', Meteor)),
-  },
+  ali: {
+    accessKeyId: need(prop('settings.ali.accessKeyId', Meteor)),
+    accessKeySecret: need(prop('settings.ali.accessKeySecret', Meteor)),
+    roles: {
+      client: {
+        arn: need(prop('settings.ali.roles.client.arn', Meteor)),
+        policy: need(prop('settings.ali.roles.client.policy', Meteor))
+      }
+    }
+  }
 }

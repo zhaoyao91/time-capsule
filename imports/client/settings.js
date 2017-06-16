@@ -4,8 +4,11 @@ import { prop } from 'lodash/fp'
 import { need } from '../common/utils/settings'
 
 export default {
-  nos: {
-    bucket: need(prop('settings.public.nos.bucket', Meteor)),
-    domain: need(prop('settings.public.nos.domain', Meteor)),
+  ali: {
+    oss: {
+      region: need(prop('settings.public.ali.oss.region', Meteor)),
+      bucket: need(prop('settings.public.ali.oss.bucket', Meteor)),
+      domain: need(prop('settings.public.ali.oss.domain', Meteor)),
+    }
   }
 }

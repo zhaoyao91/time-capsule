@@ -19,8 +19,7 @@ import FileService from '../../services/file'
     image: {
       async uploadCallback(file) {
         try {
-          const key = await FileService.uploadTimeCapsuleContentImage(file)
-          const url = FileService.getUrl(key)
+          const url = await FileService.uploadTimeCapsuleContentImage(file)
           return {data: {link: url}}
         }
         catch (err) {

@@ -5,16 +5,15 @@
     "start": "meteor run"
   },
   "dependencies": {
+    "ali-oss": "^4.8.0",
     "babel-runtime": "^6.20.0",
     "bcrypt": "^1.0.2",
     "blueimp-load-image": "^2.12.2",
     "bootstrap": "^4.0.0-alpha.6",
     "classnames": "^2.2.5",
-    "crypto-js": "^3.1.9-1",
     "draft-js": "^0.10.1",
     "glamor": "^2.20.25",
     "history": "^4.6.2",
-    "jquery": "^3.2.1",
     "lodash": "^4.17.4",
     "meteor-node-stubs": "^0.2.11",
     "moment": "^2.18.1",
